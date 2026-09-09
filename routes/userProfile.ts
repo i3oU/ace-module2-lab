@@ -49,18 +49,12 @@ export function getUserProfile () {
       return
     }
 
-    let username = user.username
-
-    if (username) {
-      username = '\\' + username
-    }
+    const username = user.username
 
     const themeKey = config.get<string>('application.theme') as keyof typeof themes
     const theme = themes[themeKey] || themes['bluegrey-lightgreen']
 
-    if (username) {
-      template = template.replace(/_username_/g, username)
-    }
+    template = template.replace(/_username_/g, '#{username}')
     template = template.replace(/_emailHash_/g, security.hash(user?.email))
     template = template.replace(/_title_/g, entities.encode(config.get<string>('application.name')))
     template = template.replace(/_favicon_/g, favicon())
